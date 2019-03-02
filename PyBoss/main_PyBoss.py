@@ -11,6 +11,7 @@ Created on Thu Feb 28 10:42:16 2019
 
 import os
 import csv
+import datetime
 
 csvpath = os.path.join("employee_data.csv")
 csvpath2 = os.path.join("employee_data2.csv")
@@ -22,13 +23,14 @@ with open(csvpath, newline="") as csvfile:
     
     employee = {}
     employee_list = []
-    
+ # create a list of dictionaries, one dictionary for each employee   
     for row in csvreader:
         employee = {"empID":row[0],"name":row[1],"dob":row[2],"ssn":row[3],"state":row[4]}
         employee_list.append(employee)
 
     #print(employee_list)
 
+#open second data file
 with open(csvpath2, newline="") as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")    
     # Read the header row first 
@@ -37,12 +39,22 @@ with open(csvpath2, newline="") as csvfile:
     employee2 = {}
     #employee_list = []
     
+#add second data file to employee list so all data is one list
+    
     for row in csvreader:
         employee2 = {"empID":row[0],"name":row[1],"dob":row[2],"ssn":row[3],"state":row[4]}
         employee_list.append(employee2)
 
 #print(employee_list)
 #count = 0
+
+#create a list for all the Employee ID numbers        
+ID_list = []
+for row in range(len(employee_list)):
+    ID_list.append(employee_list[row]["empID"])
+#print(ID_list)    
+    
+# ceate a list with employees name        
 name_list = []
 for row in range(len(employee_list)):
     name_list.append(employee_list[row]["name"])
@@ -51,7 +63,9 @@ for row in range(len(employee_list)):
 #print(count)
  
 first_list = []  
-last_list = []        # split name list into first and last 
+last_list = []     
+   
+# split name list into first and last 
    
 for n in range(len(name_list)):
     nme = name_list[n]          #create a list with (First and last name) as list items
@@ -60,24 +74,36 @@ for n in range(len(name_list)):
     last_list.append(l)
         
 #print(first_list)
-nu_name_list = []
-nu_name = {}
-r =0
-for r in range(len(employee_list)):
-    nu_name = {"empID":r[0],"dob":r[2],"ssn":r[3],"state":r[4]}
-    nu_name_list.append((nu_name[r]["empID"]["dob"]["ssn"]["state"]))
+#print(last_list)
+
+#create a list of birthdays   
+DOB_list = []
+for row in range(len(employee_list)):
+    DOB_list.append(employee_list[row]["dob"])
+
+#print(DOB_list)
     
-print(nu_name_list)
-    
-'''for n in range(len(nu_name_list)):
-    
-    for f in range(len(first_list)):
-        nu_name = {"empID":n[0],"first_name":f[0],"dob":n[2],"ssn":n[3],"state":n[4]}
-        nu_name_list.append(nu_name)'''
-        
-'''for l in range(len(last_list)):
-    nu_name = {"empID":row[0],"first_name":f[0],"last_name":l[0],"dob":row[2],"ssn":row[3],"state":row[4]}
-    nu_name_list.append(nu_name)'''
+#format birthdays and create a new list
+dob_list = []
+for i in DOB_list:
+    dbl = [datetime.datetime.strptime(i, '%Y-%m-%d').strftime('%m/%d/%Y')]
+    dob_list.append(dbl)
+#print(dob_list)
+
+#create a new list of just ssn
+ssn_list =[]
+for row in range(len(employee_list)):
+    ssn_list.append(employee_list[row]["ssn"])
+#print(ssn_list)
+#hide all but the last 4 digits of ssn, create a new list
+hide_list =[]
+for i in range(len(ssn_list)):
+    ss = ssn_list[i]
+    x,y,z = ss.split("-")
+    last4 = z
+    #print(z)
+    hide_list.append("***-**-" + last4)
+print(hide_list)
 
 
 
