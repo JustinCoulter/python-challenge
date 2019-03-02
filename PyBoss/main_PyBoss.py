@@ -103,14 +103,11 @@ for i in range(len(ssn_list)):
     last4 = z
     #print(z)
     hide_list.append("***-**-" + last4)
-print(hide_list)
+#print(hide_list)
 
 
 
-
-
-
-
+ 
 
 
 
